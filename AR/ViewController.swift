@@ -12,69 +12,35 @@ import ARKit
 
 class ViewController: UIViewController, ARSCNViewDelegate {
 
-    @IBOutlet var sceneView: ARSCNView!
+    @IBOutlet var sceneView: ARSCNView! //Represents the Scene View created to render the 3D objects
     
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
         
-        // Set the view's delegate
         sceneView.delegate = self
         
-        // Show statistics such as fps and timing information
-        sceneView.showsStatistics = true
+        let scene = SCNScene(named: "art.scnassets/ship.scn")! // Creating a new scene with the object ship
         
-        // Create a new scene
-        let scene = SCNScene(named: "art.scnassets/ship.scn")!
         
-        // Set the scene to the view
-        sceneView.scene = scene
+        sceneView.scene = scene //Set the view to present the scene
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool)
+    {
         super.viewWillAppear(animated)
-        
-        // Create a session configuration
+
+        //This takes the input from the sensors and the device's camera and builds a digital image of the device's surrounding and the position of the device.
         let configuration = ARWorldTrackingConfiguration()
 
-        // Run the view's session
         sceneView.session.run(configuration)
+        // Once this called, that session's digital image of the device's surrounding is saved and we can place objects onto the real wolrd scene.
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool)
+    {
         super.viewWillDisappear(animated)
         
-        // Pause the view's session
-        sceneView.session.pause()
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
-    }
-
-    // MARK: - ARSCNViewDelegate
-    
-/*
-    // Override to create and configure nodes for anchors added to the view's session.
-    func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
-        let node = SCNNode()
-     
-        return node
-    }
-*/
-    
-    func session(_ session: ARSession, didFailWithError error: Error) {
-        // Present an error message to the user
-        
-    }
-    
-    func sessionWasInterrupted(_ session: ARSession) {
-        // Inform the user that the session has been interrupted, for example, by presenting an overlay
-        
-    }
-    
-    func sessionInterruptionEnded(_ session: ARSession) {
-        // Reset tracking and/or remove existing anchors if consistent tracking is required
-        
+        sceneView.session.pause() //pause the scene
     }
 }
